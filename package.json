@@ -3,13 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "set NODE_ENV=development&&set NODE_PATH=.&&node app.js"
+    "start": "set NODE_ENV=development&&set NODE_PATH=.&&set MONGO=.&&node app.js"
   },
   "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "ejs": "*",
     "ejs-locals": "^1.0.2",
-    "express": "3.21.2",
+    "express": "^3.21.2",
     "mongodb": "^3.1.4",
+    "mongoose": "^5.2.15",
     "nconf": "^0.10.0",
     "winston": "^2.4.3"
   }
