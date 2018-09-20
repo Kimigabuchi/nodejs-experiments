@@ -7,17 +7,16 @@
         "socketOptions": {
           "keepAlive": 1
         }
-      },
-      "useNewUrlParser": true,
-      "session": {
-        "secret": "KillerIsJim",
-        "key": "sid",
-        "cookie": {
-          "path": "/",
-          "httpOnly": true,
-          "maxAge": null
-        }
       }
+    }
+  },
+  "session": {
+    "secret": "KillerIsJim",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
     }
   }
 }
