@@ -32,12 +32,9 @@ app.use(express.session({
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-// app.use(function(req, res, next) {
-//   req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-//   res.send("Visits: " + req.session.numberOfVisits);
-// });
-
 app.use(require('middleware/sendHttpError'));
+
+app.use(require('middleware/loadUser'));
 
 app.use(app.router);
 
@@ -61,51 +58,6 @@ app.use(function(err, req, res, next) {
     }
   }
 });
-
-// const MongoClient = require('mongodb').MongoClient;
-// const assert = require('assert');
-
-// // Connection URL
-// const url = 'mongodb://localhost:27017';
-
-// // Database Name
-// const dbName = 'chat';
-// const collectionName = "test_insert";
-
-// // Use connect method to connect to the server
-// MongoClient.connect(url, function(err, client) {
-//   assert.equal(null, err);
-//   console.log("Connected successfully to server");
-
-//   const db = client.db(dbName);
-//   removeDocument(db, function() {
-//     insertDocuments(db, function() {
-//       findDocuments(db, function() {
-//         client.close();
-//       });
-//     });
-//   })
-
-// });
-
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/test');
-
-// const schema = mongoose.Schema({
-//   name: String
-// });
-// schema.methods.meow = function() {
-//   console.log(this.get('name'));
-// }
-
-// const removeDocument = function(db, callback) {
-//   // Get the documents collection
-//   const collection = db.collection(collectionName);
-//   collection.deleteMany({}, function(err, res) {
-//     callback(res);
-//   })
-// }
-
 
 const insertDocuments = function(db, callback) {
   // Get the documents collection
@@ -134,41 +86,10 @@ const findDocuments = function(db, callback) {
     callback(docs);
   });
 }
-// var routes = require('./routes');
-// var user = require('./routes/user');
-
-// // all environments
-
-
-// // development only
-// if ('development' == app.get('env')) {
-//   app.use(express.errorHandler());
-// }
-
-// app.get('/', routes.index);
-// app.get('/users', user.list);
-
-
 
 http.createServer(app).listen(config.get('port'), function(){
   log.info("Express server listening on port " + config.get('port'));
 });
-
-// const mongoose = require('lib/mongoose');
-// mongoose.set('debug', true);
-// const async = require('async');
-
-
-// async.series([
-//   open,
-//   dropDatabase,
-//   requireModels,
-//   createUsers
-// ], function(err, result) {
-//   console.log(arguments);
-//   mongoose.disconnect();
-//   process.exit(err ? 255 : 0);
-// });
 
 function open(callback) {
   mongoose.connection.on('open', callback);
@@ -183,20 +104,5 @@ function requireModels(callback) {
   require('models/user');
   async.each(Object.keys(mongoose.models), function(modelName, callback) {
     mongoose.models[modelName].ensureIndexes(callback);
-  }, callback);
-}
-
-function createUsers(callback) {
-  require('models/user');
-
-  var users = [
-    {username: 'Вася', password: 'supervasya'},
-    {username: 'Петя', password: '123'},
-    {username: 'admin', password: 'thetruehero'}
-  ];
-
-  async.each(users, function(userData, callback) {
-    var user = new mongoose.models.User(userData);
-    user.save(callback);
   }, callback);
 }
